@@ -1,0 +1,55 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+    <div ng-app="myApp">
+        <div ng-controller="ctrl">
+
+            <form method="post">
+                <p>Ten Nguoi dung</p>
+                <input ng-model="username" />
+                <p>Mat khau</p>
+                <input ng-model="password" />
+                <p>Quyen</p>
+                <select name="selectBox" ng-model="quyen">
+                    <option value="User">User</option>
+                    <option value="Admin">Admin</option>
+                </select>
+
+                <input type="submit" ng-click="Submit()" />
+            </form>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.3/angular.min.js" integrity="sha512-KZmyTq3PLx9EZl0RHShHQuXtrvdJ+m35tuOiwlcZfs/rE7NZv29ygNA8SFCkMXTnYZQK2OX0Gm2qKGfvWEtRXA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>
+        var myApp = angular.module("myApp", []).config(['$qProvider', function ($qProvider) {
+            $qProvider.errorOnUnhandledRejections(false);
+        }]);
+
+        myApp.controller("ctrl", function ($scope, $http) {
+            $scope.Submit = function () {
+                var urL = "https://localhost:44354";
+                $scope.NguoiDung = {};
+                $scope.NguoiDung.TenNguoiDung = $scope.username;
+                $scope.NguoiDung.MatKhau = $scope.password;
+                $scope.NguoiDung.Quyen = $scope.quyen;
+
+                $http({
+                    method: "POST",
+                    url: urL + "/api/User/UserCreate",
+                    data: $scope.DM
+                }).then(function (res) {
+                    $scope.likeNumber = res.data;
+                    console.log($scope.likeNumber);
+                });
+
+                console.log($scope.NguoiDung)
+            };
+        });
+    </script>
+</body>
+</html>

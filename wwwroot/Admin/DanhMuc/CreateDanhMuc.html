@@ -1,0 +1,43 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+    <div ng-app="myApp">
+        <div ng-controller="ctrl">
+            
+            <input ng-model="Tendm" />
+            <input type="submit" ng-click="Submit()" />
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.3/angular.min.js" integrity="sha512-KZmyTq3PLx9EZl0RHShHQuXtrvdJ+m35tuOiwlcZfs/rE7NZv29ygNA8SFCkMXTnYZQK2OX0Gm2qKGfvWEtRXA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>
+        var myApp = angular.module("myApp", []).config(['$qProvider', function ($qProvider) {
+            $qProvider.errorOnUnhandledRejections(false);
+        }]);
+
+        myApp.controller("ctrl", function ($scope, $http) {
+            $scope.Submit = function () {
+                var urL = "https://localhost:44354";
+                $scope.DM = {};
+                
+                $scope.DM.TenDanhMuc = $scope.Tendm;
+
+                $http({
+                    method: "POST",
+                    url: urL + "/api/DanhMuc/TaoDanhMuc",
+                    data: $scope.DM
+                }).then(function (res) {
+                    $scope.likeNumber = res.data;
+                    console.log($scope.likeNumber);
+                });
+
+                console.log($scope.DM)
+            };
+        });
+    </script>
+</body>
+</html>
