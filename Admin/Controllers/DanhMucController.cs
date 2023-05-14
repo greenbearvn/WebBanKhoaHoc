@@ -4,7 +4,7 @@ using WebBanKhoaHoc.Entities;
 using BusinessLayer.Service;
 using BusinessLayer;
 
-namespace WebBanKhoaHoc.Admin.Controller
+namespace WebBanKhoaHoc.Admin.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -27,7 +27,7 @@ namespace WebBanKhoaHoc.Admin.Controller
 
         [Route("TaoDanhMuc")]
         [HttpPost]
-        public bool Create(DanhMuc dm)
+        public bool Create([FromForm] DanhMuc dm)
         {
              BLL.Insert(dm);
                 return true;
@@ -53,7 +53,7 @@ namespace WebBanKhoaHoc.Admin.Controller
             return BLL.Delete(id);
         }
 
-
+        
 
     }
 }

@@ -38,7 +38,7 @@ namespace WebBanKhoaHoc.Admin.Controller
 
         [HttpPost]
         [Route("GiangViewCreate/")]
-        public bool Add(GiangVienCRUD gvn)
+        public bool Add([FromForm]GiangVienCRUD gvn)
         {
             if (gvn == null)
             {
@@ -47,19 +47,20 @@ namespace WebBanKhoaHoc.Admin.Controller
 
             if (gvn.AnhDaiDien.Length > 0)
             {
-                if (!Directory.Exists(env.WebRootPath + "\\Upload\\Avatar"))
+                if (!Directory.Exists(env.WebRootPath + "\\Upload\\Avatar\\"))
                 {
-                    Directory.CreateDirectory(env.WebRootPath + "\\Upload\\Avatar");
+                    Directory.CreateDirectory(env.WebRootPath + "\\Upload\\Avatar\\");
                 }
-                using (FileStream fileStream = System.IO.File.Create(env.WebRootPath + "\\Upload\\Avatar" + gvn.AnhDaiDien.FileName))
+                using (FileStream fileStream = System.IO.File.Create(env.WebRootPath + "\\Upload\\Avatar\\" + gvn.AnhDaiDien.FileName))
                 {
 
 
                     gvn.AnhDaiDien.CopyTo(fileStream);
                     fileStream.Flush();
-                    var urlAnh = "\\Upload\\Avatar" + gvn.AnhDaiDien.FileName;
+                    var urlAnh = "\\Upload\\Avatar\\" + gvn.AnhDaiDien.FileName;
 
                     GiangVien gv = new GiangVien();
+                    gv.MaGiangVien = gvn.MaGiangVien;
                     gv.TenGiangVien = gvn.TenGiangVien;
                     gv.Email = gvn.Email;
                     gv.SoDienThoai = gvn.SoDienThoai;
@@ -88,7 +89,7 @@ namespace WebBanKhoaHoc.Admin.Controller
         }
 
         [HttpPost]
-        [Route("GiangVienDelete/")]
+        [Route("SuaGiangVien/")]
         public bool Update(GiangVienCRUD gvn)
         {
             if (gvn == null)

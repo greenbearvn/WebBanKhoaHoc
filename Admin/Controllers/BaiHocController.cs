@@ -5,43 +5,47 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using System.Linq;
 using WebBanKhoaHoc.Entities;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 using Microsoft.Extensions.Options;
-namespace WebBanKhoaHoc.Admin.Controller
+
+
+namespace WebBanKhoaHoc.Admin.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class VideoCOntroller : ControllerBase
+    public class BaiHocController : ControllerBase
     {
-        private BusinessLayer.BLL.VideoBLL BLL;
+        private BusinessLayer.BLL.BaiHocBLL BLL;
 
-        public VideoCOntroller()
+        public BaiHocController()
         {
-            BLL = new BusinessLayer.BLL.VideoBLL();
+            BLL = new BusinessLayer.BLL.BaiHocBLL();
         }
 
-
         [HttpGet]
-        [Route("VideosHome/")]
-        public async Task<ActionResult<List<Video>>> GetAll()
+        [Route("BaiHocHome/")]
+        public async Task<ActionResult<List<BaiHoc>>> GetAll()
         {
             var lists = await BLL.GetAll();
             return Ok(lists);
         }
 
-
         [HttpPost]
-        [Route("VideoCreate/")]
-        public bool Add(Video vd)
+        [Route("BaiHocCreate/")]
+        public bool Add([FromForm]BaiHocCRUD bh)
         {
-            BLL.Create(vd);
+            if(bh == null)
+            {
+                return false;
+            }
+            
+            BLL.Create(bh);
             return true;
         }
 
         [HttpPost]
-        [Route("VideoDelete/")]
+        [Route("BaiHocDelete/")]
         public bool Delete(int? id)
         {
             if (id == null)
@@ -54,15 +58,15 @@ namespace WebBanKhoaHoc.Admin.Controller
         }
 
         [HttpPost]
-        [Route("VideoUpdate/")]
-        public bool Update(Video vd)
+        [Route("BaiHocUpdate/")]
+        public bool Update([FromForm] BaiHocCRUD bh)
         {
-            if (vd == null)
+            if (bh == null)
             {
                 return false;
             }
 
-            BLL.Update(vd);
+            BLL.Update(bh);
             return true;
         }
     }

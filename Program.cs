@@ -21,7 +21,8 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddRazorPages();
 
 
-
+builder.Services.AddRazorPages();
+builder.Services.AddMvc();
 
 
 var app = builder.Build();
@@ -33,12 +34,10 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-
-
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
-app.UseAuthorization();
+app.UseAuthorization(); 
 
 app.MapControllers();
 
